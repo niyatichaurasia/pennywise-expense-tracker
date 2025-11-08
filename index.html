@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PennyWise — Expense Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <h1>💸 PennyWise</h1>
+      <div class="right">
+        <button id="exportBtn" class="btn ghost" title="Export your data as JSON">Export</button>
+        <button id="importBtn" class="btn ghost" title="Import data from JSON">Import</button>
+        <input type="file" id="importFile" accept="application/json" hidden />
+        <button id="clearAllBtn" class="btn danger" title="Clear all data">Reset</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap grid">
+    <!-- Quick Stats -->
+    <section class="card span-2" aria-labelledby="statsTitle">
+      <h2 id="statsTitle">At a glance</h2>
+      <div class="stats">
+        <div class="stat">
+          <div class="label">Total Spent</div>
+          <div class="value" id="statTotal">₹0</div>
+        </div>
+        <div class="stat">
+          <div class="label">This Month</div>
+          <div class="value" id="statThisMonth">₹0</div>
+        </div>
+        <div class="stat">
+          <div class="label">Largest Expense</div>
+          <div class="value" id="statMax">₹0</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Add / Edit Form -->
+    <section class="card" aria-labelledby="formTitle">
+      <h2 id="formTitle">Add expense</h2>
+      <form id="expenseForm" autocomplete="off">
+        <input type="hidden" id="editingId" />
+        <div class="form-grid">
+          <label>
+            <span>Date</span>
+            <input type="date" id="date" required />
+          </label>
+          <label>
+            <span>Category</span>
+            <select id="category" required>
+              <option value="" disabled selected>Select</option>
+              <option>Food</option>
+              <option>Transport</option>
+              <option>Shopping</option>
+              <option>Bills</option>
+              <option>Entertainment</option>
+              <option>Health</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label>
+            <span>Description</span>
+            <input type="text" id="description" maxlength="60" placeholder="e.g., Lunch with friends" required />
+          </label>
+          <label>
+            <span>Amount (₹)</span>
+            <input type="number" id="amount" min="0" step="0.01" required />
+          </label>
+          <label>
+            <span>Method</span>
+            <select id="method">
+              <option>UPI</option>
+              <option>Cash</option>
+              <option>Card</option>
+              <option>NetBanking</option>
+              <option>Other</option>
+            </select>
+          </label>
+        </div>
+        <div class="actions">
+          <button type="submit" class="btn primary" id="submitBtn">Add expense</button>
+          <button type="button" class="btn" id="cancelEditBtn" hidden>Cancel edit</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Filters -->
+    <section class="card" aria-labelledby="filtersTitle">
+      <h2 id="filtersTitle">Filter & sort</h2>
+      <div class="filters">
+        <label>
+          <span>Month</span>
+          <input type="month" id="filterMonth" />
+        </label>
+        <label>
+          <span>Category</span>
+          <select id="filterCategory">
+            <option value="">All</option>
+            <option>Food</option>
+            <option>Transport</option>
+            <option>Shopping</option>
+            <option>Bills</option>
+            <option>Entertainment</option>
+            <option>Health</option>
+            <option>Other</option>
+          </select>
+        </label>
+        <label class="grow">
+          <span>Search</span>
+          <input type="search" id="filterSearch" placeholder="Find by text or method…" />
+        </label>
+        <label>
+          <span>Sort by</span>
+          <select id="sortBy">
+            <option value="date-desc">Date ↓</option>
+            <option value="date-asc">Date ↑</option>
+            <option value="amount-desc">Amount ↓</option>
+            <option value="amount-asc">Amount ↑</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <!-- List -->
+    <section class="card span-2" aria-labelledby="listTitle">
+      <div class="listHeader">
+        <h2 id="listTitle">Expenses</h2>
+        <div id="countBadge" class="badge">0</div>
+      </div>
+      <div class="responsive-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Category</th>
+              <th>Description</th>
+              <th>Method</th>
+              <th class="num">Amount</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>Built with ❤️ using HTML, CSS & JS · Data saved locally</span>
+      <button id="themeToggle" class="btn ghost">Toggle Theme</button>
+    </div>
+  </footer>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
